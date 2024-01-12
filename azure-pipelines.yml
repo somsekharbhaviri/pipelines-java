@@ -1,4 +1,3 @@
-
 trigger:
 - main
 
@@ -6,6 +5,8 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
+- checkout: self
+
 - task: Maven@3
   inputs:
     mavenPomFile: 'pom.xml'
@@ -16,3 +17,7 @@ steps:
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
+
+- script: |
+    java -cp target/* com.example.Main
+  displayName: 'Run Main.java'
